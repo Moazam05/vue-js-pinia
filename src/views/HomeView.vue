@@ -7,6 +7,7 @@ const storeCounter = useCounterStore();
 <template>
   <div class="counter-app">
     <div class="counter-box">
+      <h2 style="margin-bottom: 20px">Home Page</h2>
       <h1 class="counter-value">{{ storeCounter.count }}</h1>
       <div class="button-group">
         <button class="button increase" @click="storeCounter.increaseCount">

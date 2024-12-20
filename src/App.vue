@@ -34,6 +34,7 @@ import { RouterLink, RouterView } from "vue-router";
 .nav {
   display: flex;
   gap: 20px;
+  margin-top: 30px;
 }
 
 .nav-link {
