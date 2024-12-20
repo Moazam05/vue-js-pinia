@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 const count = ref(0);
 
@@ -12,6 +12,10 @@ const decreaseCount = () => {
     count.value--;
   }
 };
+
+const oddOrEven = computed(() => {
+  return count.value % 2 === 0 ? "Even" : "Odd";
+});
 </script>
 
 <template>
@@ -28,43 +32,48 @@ const decreaseCount = () => {
           Decrease
         </button>
       </div>
+      <p class="odd-or-even">
+        <span class="label">Count is:</span>
+        <span class="value" :class="oddOrEven.toLowerCase()">{{
+          oddOrEven
+        }}</span>
+      </p>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* Overall app container styling */
-
 .counter-app {
-  width: 400px;
   margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Counter container */
 .counter-box {
+  width: 400px;
   text-align: center;
   padding: 40px 20px;
   border-radius: 15px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #fff;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
 }
 
-/* Counter value styling */
 .counter-value {
   font-size: 72px;
   font-weight: bold;
   margin-bottom: 30px;
+  color: #333;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Buttons container */
 .button-group {
   display: flex;
   gap: 20px;
   justify-content: center;
+  margin-bottom: 20px;
 }
 
-/* Buttons styling */
 .button {
   padding: 15px 30px;
   font-size: 18px;
@@ -72,7 +81,7 @@ const decreaseCount = () => {
   border: none;
   border-radius: 30px;
   cursor: pointer;
-  transition: transform 0.2s, background-color 0.3s;
+  transition: transform 0.2s, background-color 0.3s, box-shadow 0.3s;
 }
 
 .increase {
@@ -83,6 +92,7 @@ const decreaseCount = () => {
 .increase:hover {
   background-color: #45a045;
   transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .decrease {
@@ -93,6 +103,7 @@ const decreaseCount = () => {
 .decrease:hover {
   background-color: #e53935;
   transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .decrease:disabled {
@@ -102,5 +113,38 @@ const decreaseCount = () => {
 
 .decrease:disabled:hover {
   transform: none;
+  box-shadow: none;
+}
+
+.odd-or-even {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.label {
+  margin-right: 10px;
+  color: #666;
+}
+
+.value {
+  padding: 5px 15px;
+  border-radius: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.value.even {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.value.odd {
+  background-color: #f44336;
+  color: #fff;
 }
 </style>
