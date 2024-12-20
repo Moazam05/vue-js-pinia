@@ -1,70 +1,73 @@
 <script setup>
-import { ref, computed } from "vue";
+import { useCounterStore } from "@/stores/counter";
 
-const count = ref(0);
-
-const increaseCount = () => {
-  count.value++;
-};
-
-const decreaseCount = () => {
-  if (count.value > 0) {
-    count.value--;
-  }
-};
-
-const oddOrEven = computed(() => {
-  return count.value % 2 === 0 ? "Even" : "Odd";
-});
+const storeCounter = useCounterStore();
 </script>
 
 <template>
   <div class="counter-app">
     <div class="counter-box">
-      <h1 class="counter-value">{{ count }}</h1>
+      <h1 class="counter-value">{{ storeCounter.count }}</h1>
       <div class="button-group">
-        <button class="button increase" @click="increaseCount">Increase</button>
+        <button class="button increase" @click="storeCounter.increaseCount">
+          Increase
+        </button>
         <button
           class="button decrease"
-          @click="decreaseCount"
-          :disabled="count === 0"
+          @click="storeCounter.decreaseCount"
+          :disabled="storeCounter.count === 0"
         >
           Decrease
         </button>
       </div>
       <p class="odd-or-even">
         <span class="label">Count is:</span>
-        <span class="value" :class="oddOrEven.toLowerCase()">{{
-          oddOrEven
+        <span class="value" :class="storeCounter.oddOrEven.toLowerCase()">{{
+          storeCounter.oddOrEven
         }}</span>
       </p>
+
+      <div style="margin: 25px 0">
+        <hr />
+      </div>
+      <h3>Edit Counter</h3>
+      <input
+        type="number"
+        v-model="storeCounter.count"
+        class="counter-input"
+        placeholder="Enter a number"
+      />
     </div>
   </div>
 </template>
 
 <style scoped>
 .counter-app {
-  margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .counter-box {
-  width: 400px;
+  width: 450px;
   text-align: center;
   padding: 40px 20px;
-  border-radius: 15px;
-  background-color: #fff;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.counter-box:hover {
+  transform: scale(1.02);
 }
 
 .counter-value {
-  font-size: 72px;
+  font-size: 80px;
   font-weight: bold;
   margin-bottom: 30px;
   color: #333;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
 }
 
 .button-group {
@@ -76,7 +79,7 @@ const oddOrEven = computed(() => {
 
 .button {
   padding: 15px 30px;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   border: none;
   border-radius: 30px;
@@ -91,8 +94,8 @@ const oddOrEven = computed(() => {
 
 .increase:hover {
   background-color: #45a045;
-  transform: scale(1.1);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .decrease {
@@ -102,18 +105,13 @@ const oddOrEven = computed(() => {
 
 .decrease:hover {
   background-color: #e53935;
-  transform: scale(1.1);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .decrease:disabled {
   background-color: #9e9e9e;
   cursor: not-allowed;
-}
-
-.decrease:disabled:hover {
-  transform: none;
-  box-shadow: none;
 }
 
 .odd-or-even {
@@ -131,8 +129,8 @@ const oddOrEven = computed(() => {
 }
 
 .value {
-  padding: 5px 15px;
-  border-radius: 10px;
+  padding: 8px 20px;
+  border-radius: 12px;
   font-weight: bold;
   text-transform: uppercase;
   transition: background-color 0.3s, color 0.3s;
@@ -146,5 +144,22 @@ const oddOrEven = computed(() => {
 .value.odd {
   background-color: #f44336;
   color: #fff;
+}
+
+.counter-input {
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-top: 20px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+.counter-input:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
 }
 </style>
